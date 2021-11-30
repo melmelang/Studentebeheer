@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "s5vUbHWaSH+ajqqtCRLuIKHQvx7TJKkwXuWmbTlbaSHR87ZcyGBJ69QzwScF+BrT0LJcEfuPeWS96o1eteSL1Q==",
+  "dgSpecHash": "u18+vH0Gv2sGR05+YBlUocP0J9a+JnlZUvfPOFFnQ+B/p+1bpmFWt125KfZ2HIDhBAzhnrsyb+tyGB25LYehRw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\angeli melvin\\source\\repos\\Studentenbeheer\\Studentenbeheer\\Studentenbeheer.csproj",
+  "projectFilePath": "C:\\Users\\angeli melvin\\Documents\\GitHub\\Studentebeheer\\Studentenbeheer\\Studentenbeheer\\Studentenbeheer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\angeli melvin\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\angeli melvin\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
