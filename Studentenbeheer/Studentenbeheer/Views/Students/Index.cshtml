@@ -1,13 +1,20 @@
 ﻿@model IEnumerable<Studentenbeheer.Models.Student>
 
 @{
-    ViewData["Title"] = "Studenten";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Beheer studenten</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Student toevoegen</a>
+    <a asp-action="Create">Create New</a>
+</p>
+<p>
+    <form asp-action="Index" asp-controller="Students" methot="get">
+        Selecteer: 
+        <input type="text" name="searchFieldName" />
+        <input type="submit" value="Filter" />
+    </form>
 </p>
 <table class="table">
     <thead>
@@ -40,12 +47,12 @@
                 @Html.DisplayFor(modelItem => item.Geboortedatum)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Geslacht)
+                @Html.DisplayFor(modelItem => item.Geslacht.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Wijzig</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

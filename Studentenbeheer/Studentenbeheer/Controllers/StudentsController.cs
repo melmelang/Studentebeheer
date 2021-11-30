@@ -20,9 +20,31 @@ namespace Studentenbeheer.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchFieldName)
         {
-            return View(await _context.Student.ToListAsync());
+            var studentsAchternaam = from s in _context.Student
+                           select s;
+            var studentsVoornaam = from s in _context.Student
+                                     select s;
+
+            if (!string.IsNullOrEmpty(searchFieldName))
+            {
+                studentsAchternaam = from s in _context.Student
+                                     where s.Achternaam.Contains(searchFieldName)
+                                     orderby s.Achternaam
+                                     select s;
+                studentsVoornaam = from s in _context.Student
+                               where s.Voornaam.Contains(searchFieldName)
+                               orderby s.Voornaam
+                               select s;
+            }
+
+            var studentenbeheerContext = _context.Student.Include(s => s.Geslacht);
+            
+            var test = await studentsAchternaam.ToListAsync();
+            test += await studentsVoornaam.ToListAsync();
+            test += await studentenbeheerContext.ToListAsync();
+            return View(test);
         }
 
         // GET: Students/Details/5
@@ -34,6 +56,7 @@ namespace Studentenbeheer.Controllers
             }
 
             var student = await _context.Student
+                .Include(s => s.Geslacht)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -46,6 +69,7 @@ namespace Studentenbeheer.Controllers
         // GET: Students/Create
         public IActionResult Create()
         {
+            ViewData["GeslachtId"] = new SelectList(_context.Gender, "ID", "Name");
             return View();
         }
 
@@ -54,7 +78,7 @@ namespace Studentenbeheer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Voornaam,Achternaam,Geboortedatum,Geslacht")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Voornaam,Achternaam,Geboortedatum,GeslachtId")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +86,7 @@ namespace Studentenbeheer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GeslachtId"] = new SelectList(_context.Gender, "ID", "Name", student.GeslachtId);
             return View(student);
         }
 
@@ -78,6 +103,7 @@ namespace Studentenbeheer.Controllers
             {
                 return NotFound();
             }
+            ViewData["GeslachtId"] = new SelectList(_context.Gender, "ID", "Name", student.GeslachtId);
             return View(student);
         }
 
@@ -86,7 +112,7 @@ namespace Studentenbeheer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Voornaam,Achternaam,Geboortedatum,Geslacht")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Voornaam,Achternaam,Geboortedatum,GeslachtId")] Student student)
         {
             if (id != student.Id)
             {
@@ -113,6 +139,7 @@ namespace Studentenbeheer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GeslachtId"] = new SelectList(_context.Gender, "ID", "Name", student.GeslachtId);
             return View(student);
         }
 
@@ -125,6 +152,7 @@ namespace Studentenbeheer.Controllers
             }
 
             var student = await _context.Student
+                .Include(s => s.Geslacht)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {

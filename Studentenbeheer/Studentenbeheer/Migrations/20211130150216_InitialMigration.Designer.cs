@@ -12,8 +12,8 @@ using Studentenbeheer.Data;
 namespace Studentenbeheer.Migrations
 {
     [DbContext(typeof(StudentenbeheerContext))]
-    [Migration("20211130103711_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211130150216_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,21 @@ namespace Studentenbeheer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Studentenbeheer.Models.Gender", b =>
+                {
+                    b.Property<string>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Gender");
+                });
 
             modelBuilder.Entity("Studentenbeheer.Models.Student", b =>
                 {
@@ -39,7 +54,7 @@ namespace Studentenbeheer.Migrations
                     b.Property<DateTime>("Geboortedatum")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Geslacht")
+                    b.Property<string>("GeslachtId")
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
 
@@ -49,7 +64,20 @@ namespace Studentenbeheer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GeslachtId");
+
                     b.ToTable("Student");
+                });
+
+            modelBuilder.Entity("Studentenbeheer.Models.Student", b =>
+                {
+                    b.HasOne("Studentenbeheer.Models.Gender", "Geslacht")
+                        .WithMany()
+                        .HasForeignKey("GeslachtId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Geslacht");
                 });
 #pragma warning restore 612, 618
         }

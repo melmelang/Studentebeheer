@@ -32,11 +32,11 @@
             @Html.DisplayNameFor(model => model.Geslacht)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Geslacht)
+            @Html.DisplayFor(model => model.Geslacht.Name)
         </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Terug Bij De Lijst</a>
+    <a asp-action="Index">Back to List</a>
 </div>
