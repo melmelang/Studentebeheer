@@ -22,13 +22,13 @@ namespace Studentenbeheer.Data
                     new Gender
                     {
                         ID = 'M',
-                        Name = "Male"
+                        Name = "Man"
                     },
 
                     new Gender
                     {
-                        ID = 'F',
-                        Name = "Female"
+                        ID = 'V',
+                        Name = "Vrouw"
                     },
 
                     new Gender
@@ -47,7 +47,7 @@ namespace Studentenbeheer.Data
                         Voornaam = "Ine",
                         Achternaam = "DeBast",
                         Geboortedatum = DateTime.Now,
-                        GeslachtId = 'F'
+                        GeslachtId = 'V'
                     },
 
                     new Student

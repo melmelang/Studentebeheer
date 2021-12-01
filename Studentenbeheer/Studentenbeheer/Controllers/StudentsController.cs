@@ -20,31 +20,32 @@ namespace Studentenbeheer.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string searchFieldName)
+        public async Task<IActionResult> Index(string searchFieldName, char searchGender)
         {
-            var studentsAchternaam = from s in _context.Student
-                           select s;
-            var studentsVoornaam = from s in _context.Student
+            var students = from s in _context.Student
                                      select s;
+
+            if (searchGender != 0)
+            {
+                students = from s in _context.Student
+                           where s.GeslachtId == searchGender
+                           select s;
+            }
 
             if (!string.IsNullOrEmpty(searchFieldName))
             {
-                studentsAchternaam = from s in _context.Student
-                                     where s.Achternaam.Contains(searchFieldName)
-                                     orderby s.Achternaam
+                students = from s in students
+                                     where s.Achternaam.Contains(searchFieldName) || s.Voornaam.Contains(searchFieldName)
+                                     orderby s.Achternaam, s.Voornaam
                                      select s;
-                studentsVoornaam = from s in _context.Student
-                               where s.Voornaam.Contains(searchFieldName)
-                               orderby s.Voornaam
-                               select s;
             }
 
             var studentenbeheerContext = _context.Student.Include(s => s.Geslacht);
-            
-            var test = await studentsAchternaam.ToListAsync();
-            test += await studentsVoornaam.ToListAsync();
-            test += await studentenbeheerContext.ToListAsync();
-            return View(test);
+
+            ViewData["genderId"] = new SelectList(_context.Gender.ToList(), "ID", "Name");
+
+            await studentenbeheerContext.ToListAsync();
+            return View(await students.ToListAsync());
         }
 
         // GET: Students/Details/5

@@ -11,8 +11,12 @@
 </p>
 <p>
     <form asp-action="Index" asp-controller="Students" methot="get">
-        Selecteer: 
+        <label for="searchFieldName">Naam: </label>
         <input type="text" name="searchFieldName" />
+        <label for="gender">Geslacht: </label>
+        <select name="searchGender" asp-items="@ViewBag.genderId">
+            <option value="">all</option>
+        </select>
         <input type="submit" value="Filter" />
     </form>
 </p>
