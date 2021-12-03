@@ -37,6 +37,59 @@ namespace Studentenbeheer.Migrations
                     b.ToTable("Gender");
                 });
 
+            modelBuilder.Entity("Studentenbeheer.Models.Inschrijvingen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("AfgelegdOp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Inschrijvingsdatum")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Resultaat")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Inschrijvingen");
+                });
+
+            modelBuilder.Entity("Studentenbeheer.Models.Module", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Naam")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Omschrijving")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Module");
+                });
+
             modelBuilder.Entity("Studentenbeheer.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -65,6 +118,25 @@ namespace Studentenbeheer.Migrations
                     b.HasIndex("GeslachtId");
 
                     b.ToTable("Student");
+                });
+
+            modelBuilder.Entity("Studentenbeheer.Models.Inschrijvingen", b =>
+                {
+                    b.HasOne("Studentenbeheer.Models.Module", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Studentenbeheer.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Studentenbeheer.Models.Student", b =>

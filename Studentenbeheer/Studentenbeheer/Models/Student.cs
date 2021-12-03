@@ -15,6 +15,7 @@ namespace Studentenbeheer.Models
         [Required]
         [DataType (DataType.Date)]
         public DateTime Geboortedatum { get; set; }
+        public DateTime? Deleted { get; set; }
 
         [ForeignKey("Gender")]
         public char GeslachtId { get; set; }
@@ -23,10 +24,8 @@ namespace Studentenbeheer.Models
 
     public class StudentIndexViewModel
     {
-        public String VoornaamFilter { get; set; }
-        public string AchternaamFilter { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime GeboortedatumFilter { get; set; }
+        public string NaamFilter { get; set; }
+        public char GeslachtIdFilter { get; set; }
         public List<Student> FilteredStudent { get; set; }
         public SelectList GenderToSelect { get; set; }
     }

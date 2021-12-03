@@ -22,50 +22,24 @@ namespace Studentenbeheer.Controllers
         // GET: Students
         public async Task<IActionResult> Index(string searchFieldName, char searchGender, string orderBy)
         {
-            //var students = from s in _context.Student
-            //                         select s;
+            var students = from s in _context.Student where s.Deleted > DateTime.Now orderby s.Voornaam select s;
 
-            //if (searchGender != 0)
-            //{
-            //    students = from s in _context.Student
-            //               where s.GeslachtId == searchGender
-            //               select s;
-            //}
-
-            //if (!string.IsNullOrEmpty(searchFieldName))
-            //{
-            //    students = from s in students
-            //                         where s.Achternaam.Contains(searchFieldName) || s.Voornaam.Contains(searchFieldName)
-            //                         orderby s.Achternaam, s.Voornaam
-            //                         select s;
-            //}
-
-            //var studentenbeheerContext = _context.Student.Include(s => s.Geslacht);
-
-            //ViewData["genderId"] = new SelectList(_context.Gender.ToList(), "ID", "Name");
-
-            //await studentenbeheerContext.ToListAsync();
-            //return View(await students.ToListAsync());
-
-            // Lijst alle message op.  We gebruiken Linq
-            var students = from m in _context.Student select m;
-
-            // Pas de groepfilter (selectedGroup) toe als deze niet leeg is
             if (searchGender != 0)
                 students = from s in _context.Student
                            where s.GeslachtId == searchGender
+                           orderby s.Voornaam
                            select s;
 
-            //Pas de titleFilter toe(als deze niet leeg is) en zorg dat de groep-instanties daaraan toegevoegd zijn en sorteer
             if (!string.IsNullOrEmpty(searchFieldName))
                 students = from s in students
                            where s.Achternaam.Contains(searchFieldName) || s.Voornaam.Contains(searchFieldName)
                            orderby s.Achternaam, s.Voornaam
                            select s;
 
-            ViewData["VoornaamField"] = string.IsNullOrEmpty(orderBy) ? "Voornaam_Desc" : "Voornaam";
-            ViewData["AchternaamField"] = string.IsNullOrEmpty(orderBy) ? "Achetrnaam_Desc" : "Achternaam";
+            ViewData["VoornaamField"] = orderBy == "Voornaam" ? "Voornaam_Desc" : "Voornaam";
+            ViewData["AchternaamField"] = orderBy == "Achternaam" ? "Achetrnaam_Desc" : "Achternaam";
             ViewData["GeboortedatumField"] = string.IsNullOrEmpty(orderBy) ? "Geboortedatum_Desc" : "";
+            ViewData["genderId"] = new SelectList(_context.Gender.ToList(), "ID", "Name");
 
             switch (orderBy)
             {
@@ -89,20 +63,13 @@ namespace Studentenbeheer.Controllers
                     break;
             }
 
-            // Lijst van groepen 
             IQueryable<Gender> genderToSelect = from g in _context.Gender orderby g.Name select g;
 
-            // Maak een object van de view-model-class en voeg daarin alle wat we nodig hebben
             StudentIndexViewModel studentIndexViewModel = new StudentIndexViewModel()
             {
-        //        public String VoornaamFilter { get; set; }
-        //public string AchternaamFilter { get; set; }
-        //[DataType(DataType.Date)]
-        //public DateTime GeboortedatumFilter { get; set; }
-        //public List<Student> FilteredStudent { get; set; }
-        //public SelectList GenderToSelect { get; set; }
-                VoornaamFilter = searchFieldName,
-                AchternaamFilter = searchFieldName,
+                NaamFilter = searchFieldName,
+                GeslachtIdFilter = searchGender,
+                FilteredStudent = await students.Include(g => g.Geslacht).ToListAsync(),
                 GenderToSelect = new SelectList(await genderToSelect.ToListAsync(), "Id", "Name", searchGender)
             };
             return View(studentIndexViewModel);
@@ -229,7 +196,8 @@ namespace Studentenbeheer.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var student = await _context.Student.FindAsync(id);
-            _context.Student.Remove(student);
+            //_context.Student.Remove(student);
+            student.Deleted = DateTime.Now;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -17,5 +17,9 @@ namespace Studentenbeheer.Data
         public DbSet<Studentenbeheer.Models.Student> Student { get; set; }
 
         public DbSet<Studentenbeheer.Models.Gender> Gender { get; set; }
+
+        public DbSet<Studentenbeheer.Models.Module> Module { get; set; }
+
+        public DbSet<Studentenbeheer.Models.Inschrijvingen> Inschrijvingen { get; set; }
     }
 }
