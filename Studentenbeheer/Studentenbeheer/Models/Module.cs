@@ -10,7 +10,7 @@ namespace Studentenbeheer.Models
         public string? Naam { get; set; }
         [Required]
         public string? Omschrijving { get; set; }
-        public DateTime? Deleted { get; set; }
+        public DateTime? Deleted { get; set; } = DateTime.MaxValue;
 
     }
 }

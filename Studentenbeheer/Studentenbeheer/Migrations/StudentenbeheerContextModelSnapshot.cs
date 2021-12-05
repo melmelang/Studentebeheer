@@ -77,6 +77,9 @@ namespace Studentenbeheer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime?>("Deleted")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Naam")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -101,6 +104,9 @@ namespace Studentenbeheer.Migrations
                     b.Property<string>("Achternaam")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Deleted")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Geboortedatum")
                         .HasColumnType("datetime2");

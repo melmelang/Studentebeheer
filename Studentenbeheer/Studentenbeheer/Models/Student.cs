@@ -15,7 +15,7 @@ namespace Studentenbeheer.Models
         [Required]
         [DataType (DataType.Date)]
         public DateTime Geboortedatum { get; set; }
-        public DateTime? Deleted { get; set; }
+        public DateTime? Deleted { get; set; } = DateTime.MaxValue;
 
         [ForeignKey("Gender")]
         public char GeslachtId { get; set; }

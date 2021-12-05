@@ -54,6 +54,7 @@
                 @Html.DisplayFor(modelItem => student.Geslacht.Name)
             </td>
             <td>
+                <a asp-controller="Inschrijvingens" asp-action="Create" asp-route-id="@student.Id" asp-route-wich="2">Inschrijven</a> |
                 <a asp-action="Edit" asp-route-id="@student.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@student.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@student.Id">Delete</a>

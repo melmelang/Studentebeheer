@@ -12,7 +12,7 @@ using Studentenbeheer.Data;
 namespace Studentenbeheer.Migrations
 {
     [DbContext(typeof(StudentenbeheerContext))]
-    [Migration("20211202184545_FirstMigration")]
+    [Migration("20211203182045_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,9 @@ namespace Studentenbeheer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime?>("Deleted")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Naam")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,6 +106,9 @@ namespace Studentenbeheer.Migrations
                     b.Property<string>("Achternaam")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Deleted")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Geboortedatum")
                         .HasColumnType("datetime2");

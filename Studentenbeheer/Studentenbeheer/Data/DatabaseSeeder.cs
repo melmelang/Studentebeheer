@@ -47,7 +47,8 @@ namespace Studentenbeheer.Data
                         Voornaam = "Ine",
                         Achternaam = "DeBast",
                         Geboortedatum = DateTime.Now,
-                        GeslachtId = 'V'
+                        GeslachtId = 'V',
+                        Deleted = DateTime.MaxValue
                     },
 
                     new Student
@@ -55,7 +56,8 @@ namespace Studentenbeheer.Data
                         Voornaam = "Antoine",
                         Achternaam = "Couck",
                         Geboortedatum = DateTime.Now,
-                        GeslachtId = 'M'
+                        GeslachtId = 'M',
+                        Deleted = DateTime.MaxValue
                     },
 
                     new Student
@@ -63,7 +65,43 @@ namespace Studentenbeheer.Data
                         Voornaam = "Melvin",
                         Achternaam = "Angeli",
                         Geboortedatum = DateTime.Now,
-                        GeslachtId = '-'
+                        GeslachtId = '-',
+                        Deleted = DateTime.MaxValue
+                    },
+
+                    new Student
+                    {
+                        Voornaam = "-",
+                        Achternaam = "-",
+                        Geboortedatum = DateTime.Now,
+                        GeslachtId = '-',
+                        Deleted = DateTime.Now
+                    }
+
+                );
+                context.SaveChanges();
+
+                context.Module.AddRange(
+
+                    new Module
+                    {
+                        Naam = "Programmeren",
+                        Omschrijving = "Dingens programmeren",
+                        Deleted = DateTime.MaxValue
+                    },
+
+                    new Module
+                    {
+                        Naam = "Disign",
+                        Omschrijving = "Dingens tekenen",
+                        Deleted = DateTime.MaxValue
+                    },
+
+                    new Module
+                    {
+                        Naam = "-",
+                        Omschrijving = "-",
+                        Deleted = DateTime.Now
                     }
 
                 );
