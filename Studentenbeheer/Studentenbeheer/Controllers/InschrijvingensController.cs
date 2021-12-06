@@ -49,24 +49,19 @@ namespace Studentenbeheer.Controllers
         // GET: Inschrijvingens/Create
         public IActionResult Create(int? id, int? wich)
         {
-                var module = _context.Module.Where(m => m.Deleted > DateTime.Now);
-                var student = _context.Student.Where(s => s.Deleted > DateTime.Now);
+            var module = _context.Module.Where(m => m.Deleted > DateTime.Now);
+            var student = _context.Student.Where(s => s.Deleted > DateTime.Now);
+            ViewData["ModuleId"] = new SelectList(module, "Id", "Naam");
+            ViewData["StudentId"] = new SelectList(student, "Id", "Achternaam");
 
             if (wich == 1)
             {
                 module = _context.Module.Where(m => m.Id == id);
                 ViewData["ModuleId"] = new SelectList(module, "Id", "Naam");
-                ViewData["StudentId"] = new SelectList(student, "Id", "Achternaam");
             }
-            else if (wich == 2)
+            if (wich == 2)
             {
-                student = _context.Student.Where(s => s.Id == id);
-                ViewData["ModuleId"] = new SelectList(module, "Id", "Naam");
-                ViewData["StudentId"] = new SelectList(student, "Id", "Achternaam");
-            }
-            else
-            {
-                ViewData["ModuleId"] = new SelectList(module, "Id", "Naam");
+                student = _context.Student.Where(s => s.Id == 2);
                 ViewData["StudentId"] = new SelectList(student, "Id", "Achternaam");
             }
             return View();
@@ -77,7 +72,7 @@ namespace Studentenbeheer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StudentId,ModuleId,Inschrijvingsdatum,AfgelegdOp,Resultaat")] Inschrijvingen inschrijvingen)
+        public async Task<IActionResult> Create(int? id, int? wich, [Bind("Id,StudentId,ModuleId,Inschrijvingsdatum,AfgelegdOp,Resultaat")] Inschrijvingen inschrijvingen)
         {
             if (ModelState.IsValid)
             {
