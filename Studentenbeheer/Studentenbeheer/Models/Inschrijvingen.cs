@@ -16,11 +16,10 @@ namespace Studentenbeheer.Models
         [Required]
         [DataType(DataType.Date)]
         public DateTime Inschrijvingsdatum { get; set; }
-        [Required]
+        
         [DataType(DataType.Date)]
         public DateTime AfgelegdOp { get; set; }
 
-        [Required]
         public int Resultaat { get; set; }
     }
 }

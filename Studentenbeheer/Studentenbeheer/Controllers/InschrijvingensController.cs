@@ -61,7 +61,7 @@ namespace Studentenbeheer.Controllers
             }
             if (wich == 2)
             {
-                student = _context.Student.Where(s => s.Id == 2);
+                student = _context.Student.Where(s => s.Id == id);
                 ViewData["StudentId"] = new SelectList(student, "Id", "Achternaam");
             }
             return View();
@@ -72,7 +72,7 @@ namespace Studentenbeheer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, int? wich, [Bind("Id,StudentId,ModuleId,Inschrijvingsdatum,AfgelegdOp,Resultaat")] Inschrijvingen inschrijvingen)
+        public async Task<IActionResult> Create(int? id, int? wich, [Bind("Id,StudentId,ModuleId,Inschrijvingsdatum")] Inschrijvingen inschrijvingen)
         {
             if (ModelState.IsValid)
             {
