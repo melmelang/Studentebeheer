@@ -18,8 +18,8 @@ namespace Studentenbeheer.Models
         public DateTime Inschrijvingsdatum { get; set; }
         
         [DataType(DataType.Date)]
-        public DateTime AfgelegdOp { get; set; }
+        public DateTime? AfgelegdOp { get; set; }
 
-        public int Resultaat { get; set; }
+        public int? Resultaat { get; set; }
     }
 }
